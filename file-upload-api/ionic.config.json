@@ -1,0 +1,7 @@
+{
+  "name": "file-upload-api",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
