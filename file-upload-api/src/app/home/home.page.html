@@ -16,5 +16,12 @@
   <div id="container">
     <strong>Ready to create an app?</strong>
     <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-button (click)="onChangeText()">Change Text</ion-button>
+    <p id="changeText">{{ text }}</p>
+    <ion-button expand="block">
+      <ion-icon lazy="true" slot="start" name="image"></ion-icon>
+      <ion-label slot="end">Upload Image</ion-label>
+      <input type="file" (change)="loadImageFromDevice($event)" id="file-input" accept="image/png, image/jpeg">
+    </ion-button>
   </div>
 </ion-content>
