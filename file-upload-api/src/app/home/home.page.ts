@@ -55,9 +55,6 @@ export class HomePage {
     try{
       const response = await fetch(form.action, {
         method: 'POST',
-        headers: {
-          'Access-Control-Allow-Origin': 'https://localhost:5001'
-        },
         body: formData
       });
 
