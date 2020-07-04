@@ -15,39 +15,32 @@
 
   <div id="container">
     <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+    <p>
+      Start with Ionic
+      <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a>
+    </p>
+    <br />
+    <br />
+    <br />
     <ion-button (click)="testFunction()">Test Function</ion-button>
-    <p id="changeText">{{ text }}</p>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <ion-button expand="block">
-      <ion-icon lazy="true" slot="start" name="image"></ion-icon>
-      <ion-label slot="end">Upload Image</ion-label>
-      <input type="file" (change)="uploadFile($event)" id="file-input" accept="image/png, image/jpeg">
-    </ion-button>
-    <br/>
-    <br/>
-    <br/>
-    <form id="myForm">
-      <input type="file" id="inpFile"><br/>
-      <button (click)="jsFileFetch()" type="submit">Upload File</button>
-    </form>
-    <br/>
-    <br/>
-    <br/>
-    <form action="https://localhost:5001/FileUpload" enctype="multipart/form-data" onsubmit="return false;" method="post" id="formUpload">
-      <label for="FileUpload_FormFile">Microsoft Doc File Upload</label>
-      <input id="FileUpload_FormFile" type="file" name="FileUpload.FormFile" />
-      <input class="btn" type="submit" value="Upload" (click)="AJAXSubmit()"/>
-      <output name="result"></output>
+    <div id="changeText">{{ text }}</div>
+    <br />
+    <br />
+    <br />
+    <form action="https://192.168.0.139:5001/FileUpload" enctype="multipart/form-data"
+      onsubmit="return false;" method="post" id="formUpload">
+      <dl>
+        <dt>
+          <label for="FileUpload_FormFile">Microsoft Doc File Upload</label>
+        </dt>
+        <dd>
+          <input id="FileUpload_FormFile" type="file" name="files" />
+        </dd>
+      </dl>
+      <input class="btn" type="submit" value="Upload" (click)="AJAXSubmit()" />
+      <div style="margin-top: 15px;">
+        <output name="result"></output>
+      </div>
     </form>
   </div>
 </ion-content>

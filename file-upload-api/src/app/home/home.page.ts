@@ -1,4 +1,7 @@
 import { Component } from "@angular/core";
+import { Plugins, FilesystemDirectory } from "@capacitor/core";
+
+const { Filesystem } = Plugins;
 
 @Component({
   selector: "app-home",
@@ -7,64 +10,78 @@ import { Component } from "@angular/core";
 })
 export class HomePage {
   text = "default text";
-  constructor() {}
+  constructor() { }
 
-  testFunction() {
-    this.text = "Change JK";
-  }
+  async testFunction() {
+    this.text = FilesystemDirectory.ExternalStorage + "Download/bitcoin.pdf";
 
-  uploadFile(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    reader.onload = () => {
-      const blob: Blob = new Blob([
-        new Uint8Array(reader.result as ArrayBuffer),
-      ]);
-
-      const blobURL: string = URL.createObjectURL(blob);
-    };
-    console.log("Said something");
-  }
-
-  jsFileFetch() {
-    console.log("called");
-    const myForm = document.getElementById("myForm");
-    const inpFile = document.getElementById("inpFile") as HTMLInputElement;
-
-    const endpoint = "upload.php";
-    const formData = new FormData();
-    console.log(inpFile.files);
-    formData.append("inpFile", inpFile.files[0]);
-
-    fetch("url", {
-      method: "post",
-      body: formData,
-    }).catch(console.error);
-  }
-
-
-  // Micorsoft docs 
-  async AJAXSubmit() {
     
+    let contents = await Filesystem.readFile({
+      path: "Download/TestFile.pdf",
+      directory: FilesystemDirectory.ExternalStorage
+    });
+
+
+    const b64toBlob = (b64Data : string, contentType='', sliceSize=512) => {
+      const byteCharacters = atob(b64Data);
+      const byteArrays = [];
+    
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+    
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+    
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+      }
+    
+      const blob = new Blob(byteArrays, {type: contentType});
+      return blob;
+    }
+    let blob = b64toBlob(contents.data,'application/pdf')
+
+    
+    var formData = new FormData();
+    formData.append("files", blob, "bitcoin.pdf");
+
+    try {
+      const response = await fetch("https://192.168.0.139:5001/FileUpload", {
+        method: "POST",
+        body: formData,
+      });
+
+      this.text = "Result: " + response.status + " " + response.statusText;
+
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  }
+
+  // Micorsoft docs
+  async AJAXSubmit() {
     var form = document.getElementById("formUpload") as HTMLFormElement;
-    var output = document.querySelector("#formUpload output[name=\"result\"]") as HTMLOutputElement;
+    var output = document.querySelector(
+      '#formUpload output[name="result"]'
+    ) as HTMLOutputElement;
 
     const formData = new FormData(form);
 
-    try{
+    try {
       const response = await fetch(form.action, {
-        method: 'POST',
-        body: formData
+        method: "POST",
+        body: formData,
       });
 
-      if(response.ok) {
-        window.location.href = '/';
+      if (response.ok) {
+        window.location.href = "/";
       }
 
-      output.value = 'Result: ' + response.status + ' ' + response.statusText;
+      output.value = "Result: " + response.status + " " + response.statusText;
     } catch (error) {
-      console.log('Error:', error);
+      console.log("Error:", error);
     }
     console.log("Microsoft Docs File Upload Js function end");
   }
