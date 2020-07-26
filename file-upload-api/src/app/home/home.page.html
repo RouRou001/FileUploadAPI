@@ -14,30 +14,40 @@
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>
-      Start with Ionic
-      <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a>
-    </p>
-    <br />
-    <br />
-    <br />
-    <ion-button (click)="testFunction()">Test Function</ion-button>
+    <ion-button (click)="testFunction()">Upload Android Storage File</ion-button>
     <div id="changeText">{{ text }}</div>
     <br />
     <br />
     <br />
-    <form action="https://192.168.0.139:5001/FileUpload" enctype="multipart/form-data"
-      onsubmit="return false;" method="post" id="formUpload">
+    <form action="https://localhost:5001/FileUploadBuffer" enctype="multipart/form-data"
+      onsubmit="return false;" method="post" id="formUploadBuffer">
       <dl>
         <dt>
-          <label for="FileUpload_FormFile">Microsoft Doc File Upload</label>
+          <label for="FileUpload_FormFile">Microsoft Doc File Upload Buffer</label>
         </dt>
         <dd>
           <input id="FileUpload_FormFile" type="file" name="files" />
         </dd>
       </dl>
-      <input class="btn" type="submit" value="Upload" (click)="AJAXSubmit()" />
+      <input class="btn" type="submit" value="Upload" (click)="AJAXSubmitBuffer()" />
+      <div style="margin-top: 15px;">
+        <output name="result"></output>
+      </div>
+    </form>
+    <br />
+    <br />
+    <br />
+    <form #f="ngForm" action="https://localhost:5001/FileUploadStream" enctype="multipart/form-data" (ngSubmit)="AJAXSubmitStream(f)"
+      onsubmit="return false;" method="post" id="formUploadStream">
+      <dl>
+        <dt>
+          <label for="FileUpload_FormFile">Microsoft Doc File Upload Stream</label>
+        </dt>
+        <dd>
+          <input id="file" type="file" name="file" />
+        </dd>
+      </dl>
+      <input class="btn" type="submit" value="Upload" />
       <div style="margin-top: 15px;">
         <output name="result"></output>
       </div>
