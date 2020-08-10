@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'large-upload',
+    loadChildren: () => import('./large-upload/large-upload.module').then( m => m.LargeUploadPageModule)
+  },
 ];
 
 @NgModule({

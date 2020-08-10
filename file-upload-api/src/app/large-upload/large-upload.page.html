@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>largeUpload</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <form id="uploadStreamFrm" enctype="multipart/form-data" action="https://localhost:5001/FileUploadStream" method="post">
+      <dl>
+        <dt>
+          <label asp-for="FileUpload.FormFile"></label>
+        </dt>
+        <dd>
+          <!-- <input asp-for="FileUpload.FormFile" type="file"> -->
+          <input type="file" name="files"/>
+        </dd>
+      </dl>
+      <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" (click)="streamUpload()">
+      <div style="margin-top: 15px;">
+        <output name="result"></output>
+      </div>
+    </form>
+  </div>
+</ion-content>
