@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'large-upload',
     loadChildren: () => import('./large-upload/large-upload.module').then( m => m.LargeUploadPageModule)
   },
+  {
+    path: 'tusdotnet',
+    loadChildren: () => import('./tusdotnet/tusdotnet.module').then( m => m.TusdotnetPageModule)
+  },
 ];
 
 @NgModule({

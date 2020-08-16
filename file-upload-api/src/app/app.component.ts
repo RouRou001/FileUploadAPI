@@ -42,8 +42,8 @@ export class AppComponent {
         icon  : "file-tray-stacked-outline"
       },
       {
-        title : "Contacts",
-        url   : "/contacts",
+        title : "tusdotnet",
+        url   : "/tusdotnet",
         icon  : "document-outline"
       },
       {

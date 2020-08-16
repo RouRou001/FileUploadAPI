@@ -10,6 +10,7 @@ export class LargeUploadPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
   chuckUploadUrl: string;
