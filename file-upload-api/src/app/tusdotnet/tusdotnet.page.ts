@@ -51,8 +51,6 @@ export class TusdotnetPage implements OnInit, AfterViewInit {
         }
       } else {
 
-        console.log(this.input);
-        console.log(this.input.nativeElement.files);
         if (this.input.nativeElement.files.length > 0) {
           this.startUpload();
         } else {
@@ -71,8 +69,8 @@ export class TusdotnetPage implements OnInit, AfterViewInit {
     }
   
     var headers =  {
-      "Authorization": "Bearer ...",
-      "User":"abc"
+      "Authorization": "Bearer eyJraWQiOiJ1dURLVTMxZWRvTi0wd0xMUnl1TW1vbmtBdi1OaFEwejZhWmxjdTN5NU8wIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULjZoZS1fbndIcmpmSHl6bjg3bUhNLWNVUnBUNTg3RVFBT2N6Ym1QRTNkSkkiLCJpc3MiOiJodHRwczovL2Rldi04MTk2MzMub2t0YXByZXZpZXcuY29tL29hdXRoMi9kZWZhdWx0IiwiYXVkIjoiYXBpOi8vZGVmYXVsdCIsImlhdCI6MTU0Njc2NDc4OCwiZXhwIjoxNTQ2NzY4Mzg4LCJjaWQiOiIwb2Fpb3g4Ym1zQktWWGt1MzBoNyIsInNjcCI6WyJjdXN0b21TY29wZSJdLCJzdWIiOiIwb2Fpb3g4Ym1zQktWWGt1MzBoNyJ9.fZCRSMASYjQqH-gnqsQ1tJa7QN8UJZ-iPT4UZE6Voq8YsWefpyjjroMlDzkSJZVRm_V47PGLrSu7sg6ranjZTTpx8f_Qk6zfDBfNTxnWpIqKXaotTE-foial9XBSMiyuArTVsbDtHBrb9EwBSqRzBmlI2uRP92bTggxGbgNMWnQukguD_pCGHiSeDN3Jy7R7EpKgSkDpRBhQXHp0Ly6cByUmjsseWEzZdCCiIVJh_m__KEoqX8vUC6xkUYdMHJ4GWH8kPb0Hcao2jkAJBSKQKose8a5vxDS-WwpWO482NyVxNDvxBgCIfn1tG-qL4Vbdxokw41o2M81MoqgdNZGHQA",
+      "User":"test"
     }
 
     var endpoint = this.endpointInput.nativeElement.value;
@@ -89,6 +87,10 @@ export class TusdotnetPage implements OnInit, AfterViewInit {
     this.toggleBtn.nativeElement.textContent = "pause upload";
   
     var options = {
+      headers: {
+        "Authorization": "Bearer eyJraWQiOiJ1dURLVTMxZWRvTi0wd0xMUnl1TW1vbmtBdi1OaFEwejZhWmxjdTN5NU8wIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULjZoZS1fbndIcmpmSHl6bjg3bUhNLWNVUnBUNTg3RVFBT2N6Ym1QRTNkSkkiLCJpc3MiOiJodHRwczovL2Rldi04MTk2MzMub2t0YXByZXZpZXcuY29tL29hdXRoMi9kZWZhdWx0IiwiYXVkIjoiYXBpOi8vZGVmYXVsdCIsImlhdCI6MTU0Njc2NDc4OCwiZXhwIjoxNTQ2NzY4Mzg4LCJjaWQiOiIwb2Fpb3g4Ym1zQktWWGt1MzBoNyIsInNjcCI6WyJjdXN0b21TY29wZSJdLCJzdWIiOiIwb2Fpb3g4Ym1zQktWWGt1MzBoNyJ9.fZCRSMASYjQqH-gnqsQ1tJa7QN8UJZ-iPT4UZE6Voq8YsWefpyjjroMlDzkSJZVRm_V47PGLrSu7sg6ranjZTTpx8f_Qk6zfDBfNTxnWpIqKXaotTE-foial9XBSMiyuArTVsbDtHBrb9EwBSqRzBmlI2uRP92bTggxGbgNMWnQukguD_pCGHiSeDN3Jy7R7EpKgSkDpRBhQXHp0Ly6cByUmjsseWEzZdCCiIVJh_m__KEoqX8vUC6xkUYdMHJ4GWH8kPb0Hcao2jkAJBSKQKose8a5vxDS-WwpWO482NyVxNDvxBgCIfn1tG-qL4Vbdxokw41o2M81MoqgdNZGHQA",
+        "User":"test"
+      },
       endpoint: endpoint,
       chunkSize: chunkSize,
       retryDelays: [0, 1000, 3000, 5000],
@@ -97,9 +99,9 @@ export class TusdotnetPage implements OnInit, AfterViewInit {
         filename: file.name,
         filetype: file.type
       },
-      onError : this.onError,
-      onProgress: this.onProgress,
-      onSuccess: this.onSuccess
+      onError : this.onError.bind(this),
+      onProgress: this.onProgress.bind(this),
+      onSuccess: this.onSuccess.bind(this)
     };
   
     this.upload = new tus.Upload(file, options);
@@ -114,6 +116,7 @@ export class TusdotnetPage implements OnInit, AfterViewInit {
 
 
   reset(): void {
+    console.log(this.progressBar.nativeElement);
     this.input.nativeElement.value = "";
     this.toggleBtn.nativeElement.textContent = "start upload";
     this.upload = null;
@@ -154,6 +157,7 @@ export class TusdotnetPage implements OnInit, AfterViewInit {
 
   onProgress(bytesUploaded, bytesTotal): void {
     var percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
+    
     this.progressBar.nativeElement.style.width = percentage + "%";
     console.log(bytesUploaded, bytesTotal, percentage + "%");
   }
